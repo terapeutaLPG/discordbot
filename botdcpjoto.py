@@ -1,3 +1,4 @@
+import os
 import discord
 from discord.ext import commands, tasks
 
@@ -71,4 +72,5 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
-bot.run('DISCORD_TOKEN')  # Podmień na swój token
+#bot.run('DISCORD_TOKEN')  # Podmień na swój token
+bot.run(os.getenv('DISCORD_TOKEN'))
