@@ -3,7 +3,9 @@ name: Deploy Discord Bot
 on:
   push:
     branches:
-      - master  # Ustaw na nazwę gałęzi, którą używasz
+      - main
+  schedule:
+    - cron: '*/5 * * * *'  # Uruchamia co 5 minut
 
 jobs:
   build-and-deploy:
@@ -16,7 +18,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8'  # Możesz ustawić wersję Pythona, której potrzebujesz
+          python-version: '3.9'  # Ustawienie wersji Pythona na 3.9
 
       - name: Install dependencies
         run: |
@@ -25,5 +27,5 @@ jobs:
 
       - name: Run bot
         env:
-          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}  # Używa tokenu jako zmiennej środowiskowej
-        run: python botdcpjoto.py
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+        run: python your_bot_script.py
