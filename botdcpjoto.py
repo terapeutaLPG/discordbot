@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands, tasks
+
 from PIL import Image, ImageDraw, ImageFont
 import requests
 from io import BytesIO
@@ -13,21 +14,23 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user.name}')
+    # Rozpocznij cykliczne wywoływanie funkcji update_presence() co 60 sekund
     update_presence.start()
-    channel = bot.get_channel(1170158612556034068)  # Zmień na odpowiedni ID kanału
-    if channel:
-        await channel.send("Bot został uruchomiony i jest gotowy do działania.")
 
-@tasks.loop(seconds=60)
+@tasks.loop(seconds=60)  # Aktualizuj obecność co 60 sekund
 async def update_presence():
-    # Twoja logika aktualizacji statusu, upewnij się że jest zaimplementowana poprawnie
-    await bot.change_presence(activity=discord.Game(name="maca ci mamuske"))
-
-@bot.event
-async def on_disconnect():
-    channel = bot.get_channel(1170158612556034068)  # Zmień na odpowiedni ID kanału
-    if channel:
-        await channel.send("Bot został wyłączony.")
+    discordPresence = discord.RichPresence()
+    discordPresence.state = "maca ci mamuske"
+    discordPresence.details = "jaruso"
+    discordPresence.start = 1507665886
+    discordPresence.end = 1507665886
+    discordPresence.large_image = "jaruso"
+    discordPresence.large_text = "jaruso99"
+    discordPresence.small_image_text = "Rogue - Level 100"
+    discordPresence.party_id = "ae488379-351d-4a4f-ad32-2b9b01c91657"
+    discordPresence.party_size = (3, 69)
+    discordPresence.join_secret = "MTI4NzM0OjFpMmhuZToxMjMxMjM="
+    await bot.change_presence(activity=discordPresence)
 
 @bot.event
 async def on_message(message):
@@ -41,7 +44,10 @@ async def on_message(message):
                 img_data = await attachment.read()
                 img = Image.open(BytesIO(img_data))
 
+                # Określ wysokość paska
                 bar_height = 60  # Zwiększona wysokość paska
+
+                # Stwórz nowy obraz z dodatkowym miejscem na pasek
                 width, height = img.size
                 new_img = Image.new("RGB", (width, height + bar_height), "black")
                 new_img.paste(img, (0, 0))
@@ -49,11 +55,12 @@ async def on_message(message):
                 draw = ImageDraw.Draw(new_img)
                 text = "RDM | Community"
                 font = ImageFont.load_default()
+                # Używamy getbbox() zamiast getsize()
                 text_bbox = font.getbbox(text)
                 text_width = text_bbox[2] - text_bbox[0]
                 text_height = text_bbox[3] - text_bbox[1]
                 text_x = (width - text_width) / 2
-                text_y = height + (bar_height - text_height) / 2
+                text_y = height + (bar_height - text_height) / 2  # Umieść tekst w nowym pasku na dole
                 draw.text((text_x, text_y), text, font=font, fill="white")
 
                 img_byte_arr = BytesIO()
@@ -64,3 +71,4 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
+bot.run('DISCORD_TOKEN')  # Podmień na swój token
