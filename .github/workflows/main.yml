@@ -3,7 +3,7 @@ name: Deploy Discord Bot
 on:
   push:
     branches:
-      - main  # Ustaw na nazwę gałęzi, którą używasz
+      - master  # Ustaw na nazwę gałęzi, którą używasz
 
 jobs:
   build-and-deploy:
