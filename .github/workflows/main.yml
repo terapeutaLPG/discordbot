@@ -5,7 +5,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: '*/5 * * * *'  # Uruchamia co 5 minut
+    - cron: '*/1 * * * *' 
 
 jobs:
   build-and-deploy:
@@ -18,7 +18,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.9'  # Ustawienie wersji Pythona na 3.9
+          python-version: '3.9'
 
       - name: Install dependencies
         run: |
@@ -28,4 +28,4 @@ jobs:
       - name: Run bot
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-        run: python -u botdcpjoto.py.py  # Upewnij się, że nazwa pliku jest poprawna
+        run: python -u botdcpjoto.py  
