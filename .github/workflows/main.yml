@@ -1,11 +1,11 @@
 name: Deploy Discord Bot
 
-#on:
-# push:
-#    branches:
-#      - master
-#  schedule:
-#    - cron: '*/5 * * * *'  # Uruchamia co 5 minut
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '*/5 * * * *'  # Uruchamia co 5 minut
 
 jobs:
   build-and-deploy:
