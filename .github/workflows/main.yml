@@ -5,7 +5,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: '*/20 * * * *'  # Uruchamia co minutę
+    - cron: '0 * * * *'  # Uruchamia co godzinę na początku godziny
 
 jobs:
   build-and-deploy:
@@ -30,4 +30,5 @@ jobs:
       - name: Run bot
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-        run: python -u botdcpjoto.py  # Upewnij się, że nazwa pliku jest poprawna
+        run: |
+          timeout 3600 python -u botdcpjoto.py  # Uruchamia bota na maksymalnie 3600 sekund (1 godzina)
