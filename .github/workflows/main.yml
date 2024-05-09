@@ -1,11 +1,11 @@
 name: Deploy Discord Bot
 
-on:
-  push:
-    branches:
-      - master
-  schedule:
-    - cron: '0 * * * *'  # Uruchamia co godzinę na początku godziny
+#on:
+#  push:
+#    branches:
+#     - master
+#  schedule:
+#    - cron: '0 * * * *'  # Uruchamia co godzinę na początku godziny
 
 jobs:
   build-and-deploy:
