@@ -28,4 +28,5 @@ jobs:
       - name: Run bot
         run: |
           export DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}
-          python botdcpjoto.py
+          python -u botdcpjoto.py
+
