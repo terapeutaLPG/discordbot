@@ -26,7 +26,6 @@ jobs:
           pip install discord.py Pillow requests
 
       - name: Run bot
-        run: |
-          export DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}
-          python -u botdcpjoto.py
-
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+        run: python -u botdcpjoto.py.py  # Upewnij się, że nazwa pliku jest poprawna
