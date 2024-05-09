@@ -11,6 +11,16 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
+# Funkcja dodająca napis na obrazku
+def add_text_to_image(image, text):
+    draw = ImageDraw.Draw(image)
+    font = ImageFont.load_default()
+    text_width, text_height = draw.textsize(text, font=font)
+    text_x = (image.width - text_width) // 2
+    text_y = image.height - text_height - 10  # Ustawienie wysokości tekstu na dole obrazka
+    draw.text((text_x, text_y), text, fill="white", font=font)
+    return image
+
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user.name}')
@@ -21,14 +31,14 @@ async def on_ready():
     log_channel = bot.get_channel(log_channel_id)
 
     # Wypisz informację o uruchomieniu na konsoli
-    print("Bot is online.")
+    print("bot się uruchomił.")
 
     # Wyślij wiadomość o uruchomieniu na kanał logów Discord
-    await log_channel.send("Bot is online.")
+    await log_channel.send("bot się uruchomił.")
 
 @tasks.loop(seconds=60)  # Aktualizuj obecność co 60 sekund
 async def update_presence():
-    activity = discord.Game("maca ci mamuske w jaruso")  # Przykład gry
+    activity = discord.Game("maca ci mamuske ")  # Przykład gry
     await bot.change_presence(activity=activity)
 
 @bot.event
@@ -51,18 +61,12 @@ async def on_message(message):
                 new_img = Image.new("RGB", (width, height + bar_height), "black")
                 new_img.paste(img, (0, 0))
 
-                draw = ImageDraw.Draw(new_img)
-                text = "RDM | Community"
-                font = ImageFont.load_default()
-                text_bbox = font.getbbox(text)
-                text_width = text_bbox[2] - text_bbox[0]
-                text_height = text_bbox[3] - text_bbox[1]
-                text_x = (width - text_width) / 2
-                text_y = height + (bar_height - text_height) / 2
-                draw.text((text_x, text_y), text, font=font, fill="white")
+                # Dodaj tekst na obrazku
+                text = "RDM | Community"  # Twój tekst do dodania
+                new_img_with_text = add_text_to_image(new_img, text)
 
                 img_byte_arr = BytesIO()
-                new_img.save(img_byte_arr, format='PNG')
+                new_img_with_text.save(img_byte_arr, format='PNG')
                 img_byte_arr = img_byte_arr.getvalue()
 
                 await message.channel.send(f"{message.author.mention} wysłał:", file=discord.File(BytesIO(img_byte_arr), filename=attachment.filename))
