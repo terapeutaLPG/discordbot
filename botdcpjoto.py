@@ -1,7 +1,6 @@
 import os
 import discord
 from discord.ext import commands, tasks
-
 from PIL import Image, ImageDraw, ImageFont
 import requests
 from io import BytesIO
@@ -11,26 +10,16 @@ intents.messages = True
 intents.message_content = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
+
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user.name}')
-    # Rozpocznij cykliczne wywoływanie funkcji update_presence() co 60 sekund
     update_presence.start()
 
 @tasks.loop(seconds=60)  # Aktualizuj obecność co 60 sekund
 async def update_presence():
-    discordPresence = discord.RichPresence()
-    discordPresence.state = "maca ci mamuske"
-    discordPresence.details = "jaruso"
-    discordPresence.start = 1507665886
-    discordPresence.end = 1507665886
-    discordPresence.large_image = "jaruso"
-    discordPresence.large_text = "jaruso99"
-    discordPresence.small_image_text = "Rogue - Level 100"
-    discordPresence.party_id = "ae488379-351d-4a4f-ad32-2b9b01c91657"
-    discordPresence.party_size = (3, 69)
-    discordPresence.join_secret = "MTI4NzM0OjFpMmhuZToxMjMxMjM="
-    await bot.change_presence(activity=discordPresence)
+    activity = discord.Game("maca ci mamuske w jaruso")  # Przykład gry
+    await bot.change_presence(activity=activity)
 
 @bot.event
 async def on_message(message):
@@ -55,12 +44,11 @@ async def on_message(message):
                 draw = ImageDraw.Draw(new_img)
                 text = "RDM | Community"
                 font = ImageFont.load_default()
-                # Używamy getbbox() zamiast getsize()
                 text_bbox = font.getbbox(text)
                 text_width = text_bbox[2] - text_bbox[0]
                 text_height = text_bbox[3] - text_bbox[1]
                 text_x = (width - text_width) / 2
-                text_y = height + (bar_height - text_height) / 2  # Umieść tekst w nowym pasku na dole
+                text_y = height + (bar_height - text_height) / 2
                 draw.text((text_x, text_y), text, font=font, fill="white")
 
                 img_byte_arr = BytesIO()
@@ -71,5 +59,4 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
-#bot.run('DISCORD_TOKEN')  # Podmień na swój token
 bot.run(os.getenv('DISCORD_TOKEN'))
