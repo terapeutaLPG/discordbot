@@ -28,4 +28,4 @@ jobs:
       - name: Run bot
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-        run: python -u botdcpjoto.py  
+        run: python -u botdcpjoto.py
