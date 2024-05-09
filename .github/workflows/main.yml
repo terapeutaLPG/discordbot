@@ -5,7 +5,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: '*/1 * * * *'  # Uruchamia co minutę
+    - cron: '*/20 * * * *'  # Uruchamia co minutę
 
 jobs:
   build-and-deploy:
