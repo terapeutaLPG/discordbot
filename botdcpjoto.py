@@ -16,6 +16,16 @@ async def on_ready():
     print(f'Logged in as {bot.user.name}')
     update_presence.start()
 
+    # Zdefiniuj kanał logów
+    log_channel_id = 1238168175825387622  # ID kanału logów
+    log_channel = bot.get_channel(log_channel_id)
+
+    # Wypisz informację o uruchomieniu na konsoli
+    print("Bot is online.")
+
+    # Wyślij wiadomość o uruchomieniu na kanał logów Discord
+    await log_channel.send("Bot is online.")
+
 @tasks.loop(seconds=60)  # Aktualizuj obecność co 60 sekund
 async def update_presence():
     activity = discord.Game("maca ci mamuske w jaruso")  # Przykład gry
